@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Stock/Share Details</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="stock_list.html">Stock/Share Management</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="stock_list.html">Stock List</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="stock_create.html">Add Stock</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <h3>Stock/Share Details</h3>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title" id="stock-name">Stock Name: Infosys</h5>
+                        <p class="card-text" id="stock-id">Stock ID: 1</p>
+                        <p class="card-text" id="stock-price">Price: ₹1800</p>
+                        <p class="card-text" id="stock-quantity">Quantity: 15</p>
+                        <p class="card-text" id="stock-total-value">Total Value: ₹27000</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Grand Total Section -->
+        <div class="row mt-4">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Grand Total</h5>
+                        <p class="card-text" id="grand-total">Grand Total: ₹27000</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group mt-3">
+            <a href="stock_list.html" class="btn btn-light">Back to Stock List</a>
+        </div>
+    </div>
+
+    <script>
+        // Example data - You will typically retrieve this from a backend based on the ID passed in the URL
+        const stockData = {
+            1: { name: "Infosys", price: 1800, quantity: 15 },
+            2: { name: "TCS", price: 3600, quantity: 25 },
+            3: { name: "Ola", price: 90, quantity: 250 }
+        };
+
+        // Get the ID from the URL query string
+        const urlParams = new URLSearchParams(window.location.search);
+        const stockId = urlParams.get('id'); // assuming the URL has an 'id' parameter
+
+        let grandTotal = 0;
+
+        // Function to calculate total for a stock
+        const calculateStockTotal = (stock) => {
+            return stock.price * stock.quantity;
+        };
+
+        if (stockId && stockData[stockId]) {
+            const stock = stockData[stockId];
+            const totalValue = calculateStockTotal(stock);
+            grandTotal += totalValue;  // Add to grand total
+
+            // Update stock details in the UI
+            document.getElementById("stock-name").textContent = `Stock Name: ${stock.name}`;
+            document.getElementById("stock-id").textContent = `Stock ID: ${stockId}`;
+            document.getElementById("stock-price").textContent = `Price: ₹${stock.price}`;
+            document.getElementById("stock-quantity").textContent = `Quantity: ${stock.quantity}`;
+            document.getElementById("stock-total-value").textContent = `Total Value: ₹${totalValue}`;
+            
+            // Update grand total
+            document.getElementById("grand-total").textContent = `Grand Total: ₹${grandTotal}`;
+        } else {
+            // Handle case where the stock is not found or ID is missing
+            document.getElementById("stock-name").textContent = "Stock not found!";
+            document.getElementById("stock-id").textContent = "";
+            document.getElementById("stock-price").textContent = "";
+            document.getElementById("stock-quantity").textContent = "";
+            document.getElementById("stock-total-value").textContent = "";
+            document.getElementById("grand-total").textContent = "Grand Total: ₹0";
+        }
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+  </body>
+</html>
